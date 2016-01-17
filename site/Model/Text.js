@@ -7,10 +7,10 @@ function Text () {
 		if (this.active) {
 	    	//console.log("Text render");
 	    	var offset = {
-	    		top: 0,
-	    		bottom: 0,
-	    		right: 0,
-	    		left: 0
+	    		top: 10,
+	    		bottom: 10,
+	    		right: 10,
+	    		left: 10
 	    	}
 			var startX = Camera.worldXOffset*Tile.REAL_SIZE()+offset.left;
 			var startY = ((Camera.worldYOffset*Tile.REAL_SIZE()) + (Window.SCALE_HEIGHT() / 3) * 2)+offset.top;

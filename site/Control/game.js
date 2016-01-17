@@ -9,6 +9,9 @@ var game = {
 		ctx.webkitImageSmoothingEnabled = false;
 		ctx.msImageSmoothingEnabled = false;
 		ctx.imageSmoothingEnabled = false;
+		Camera.heroXOffset = player.x;
+		Camera.heroYOffset = player.y;
+		Camera.load();
 	},
 	gameOn: function () {
 		

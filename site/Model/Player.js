@@ -1,7 +1,7 @@
 function Player () {
 	this.name = "test"; 
-	this.x = 21;//133;
-	this.y = 20;//173;
+	this.x = 10;//133;
+	this.y = 84;//173;
 	this.warking = true;
 	this.runing = false;
 	this.looking = "down";
@@ -12,11 +12,13 @@ function Player () {
         right: false,
         left: false
     }
+    this.imageMovingIndex = 0;
+    this.timeLastMoving = new Date().getTime();
     this.image = document.getElementById("player");
     this.update = function (loops) {
-    	if ((loops % 5) === 0 && player.warking) {
+    	if ((loops % 3) === 0 && player.warking) {
 			this.movePlayer();
-		}else if ((loops % 2) === 0 && player.runing) {
+		}else if ((loops % 1) === 0 && player.runing) {
 			this.movePlayer();
 		};
 		this.x = Camera.heroXOffset;
@@ -32,8 +34,10 @@ function Player () {
     		lookingIndex = 3;
     	}
     	var playerGridSize = {x: 15, y: 22};
-    	
-		ctx.drawImage(this.image, playerGridSize.x * lookingIndex, playerGridSize.y * 0, playerGridSize.x, playerGridSize.y, this.x * Tile.REAL_SIZE(), (this.y * Tile.REAL_SIZE()- ((playerGridSize.y*Tile.SCALE()) - Tile.REAL_SIZE() )) , playerGridSize.x * Tile.SCALE(), playerGridSize.y* Tile.SCALE());
+    	if (this.timeLastMoving+1500 < new Date().getTime()) {
+			this.imageMovingIndex = 0;
+    	};
+		ctx.drawImage(this.image, playerGridSize.x * lookingIndex, playerGridSize.y * this.imageMovingIndex, playerGridSize.x, playerGridSize.y, this.x * Tile.REAL_SIZE(), (this.y * Tile.REAL_SIZE()- ((playerGridSize.y*Tile.SCALE()) - Tile.REAL_SIZE() )) , playerGridSize.x * Tile.SCALE(), playerGridSize.y* Tile.SCALE());
 		/*ctx.rect(this.x*Tile.SIZE, this.y*Tile.SIZE, 16, 16);
       	ctx.lineWidth = 1;
       	ctx.stroke();*/
@@ -42,28 +46,37 @@ function Player () {
     	if (player.move.up && this.canMove) {
     		if (this.looking == "up" && this.testUp()) {
 				Camera.update(0, -1);
+				this.moveImage(false);
 			}else{
 				this.looking = "up";
+				this.moveImage(true);
 			}
 	    }else if (player.move.down && this.canMove) {
 			if (this.looking == "down" && this.testDown()) {	
 				Camera.update(0, 1);
+				this.moveImage(false);
 			}else{
 				this.looking = "down";
+				this.moveImage(true);
 			}
 	    }else if (player.move.right && this.canMove) {
 			if (this.looking == "right" && this.testRight()) {
 				Camera.update(1, 0);
+				this.moveImage(false);
 			}else{
 				this.looking = "right";
+				this.moveImage(true);
 			}
 	    }else if (player.move.left && this.canMove) {
 			if (this.looking == "left" && this.testLeft()) {
 	    	    Camera.update(-1, 0);
+	    	    this.moveImage(false);
 	        }else{
 				this.looking = "left";
+				this.moveImage(true);
 			}
 	    }
+	    this.eventOnBlock(this.x,this.y);
     }
     this.doZ = function () {
     	var returnData = false;
@@ -77,7 +90,7 @@ function Player () {
     		returnData = this.eventLooking(this.x, this.y-1);
     	}
     	console.log(returnData);
-    	if (returnData.type == "sign") {
+    	if (returnData != false && returnData.type == "sign") {
     		text.setText(returnData.data);
     		return true;
     	}else{
@@ -85,6 +98,26 @@ function Player () {
     	}
     }
     this.doX = function () {
+    }
+    this.eventOnBlock = function (x, y) {
+    	var tileData = this.eventLooking(x, y);
+    	if (tileData != false && tileData.type == "warp") {
+    		var moveX = tileData.data.x - this.x; 
+    		var moveY = tileData.data.y - this.y;
+    		Camera.update(moveX, moveY);
+    		console.log("do eventOnBlock");
+    	};
+    }
+    this.moveImage = function (stop) {
+    	if (!stop) {
+	    	this.imageMovingIndex++;
+	    	if (this.imageMovingIndex > 5) {
+	    		this.imageMovingIndex = 1;
+	    	};
+	    	this.timeLastMoving = new Date().getTime();
+    	}else{
+    		this.imageMovingIndex = 0;
+    	}
     }
     this.testUp = function () {
     	//console.log(World.eventReturn(this.x, this.y-1)+" up");
@@ -100,23 +133,23 @@ function Player () {
     	return this.canWark(World.eventReturn(this.x+1, this.y));
     }
     this.canWark = function(eventNr) {
-    	if (eventNr == 0 || eventNr == 2 || eventNr == 5) {
+    	if (eventNr == 0 || eventNr == 2 || eventNr == 5 || eventNr == 3) {
     		return true;
     	}
     	return false;
     }
     this.eventLooking = function(x, y) {
-    	console.log("looking" + x + " " + y);
+    	//console.log("looking" + x + " " + y);
     	if (typeof World.map.events.sign[x+"_"+y] != "undefined") {
     		return {"type" : "sign", "data": World.map.events.sign[x+"_"+y] };
-    	}
+    	}else if (typeof World.map.events.warp[x+"_"+y] != "undefined") {
+    		return {"type" : "warp", "data": World.map.events.warp[x+"_"+y] };
+    	};
     	return false;
     }
 }
 
 var player = new Player();
-Camera.heroXOffset = player.x;
-Camera.heroYOffset = player.y;
-Camera.load();
+
 //x : 133,
 //y : 173
