@@ -29,5 +29,8 @@ function World () {
 	    var returnX =  tileNr - (returnY * tilesAmountx);
 	    return {x: returnX, y: returnY};
 	}
+	this.eventReturn = function (x, y) {
+		return this.map.data[1][x][y];
+	}
 }
 var World = new World();

@@ -25,7 +25,7 @@ var game = {
 
 			World.render(ctx, 0 + Camera.worldXOffset, 0 + Camera.worldYOffset);
 			player.render(ctx);	
-
+			text.render(ctx);
 		ctx.restore();
 	},
 	update: function (loops) {
@@ -63,6 +63,17 @@ window.addEventListener('keydown', function(e) {
             break;
         case 40:
             player.move.down = true;
+            break;
+        case 90:
+        	if(text.doZ()){
+
+        	}else if(player.doZ()){
+
+        	}
+            
+            break;
+        case 88:
+            player.doX();
             break;
     }
 }, false);

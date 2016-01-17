@@ -5,6 +5,7 @@ function Map () {
 	this.width = TileMaps.fullMap.width;
 	this.image = document.getElementById("fullSheet");
 	this.tilesets = TileMaps.fullMap.tilesets;
+	this.events = TileMaps.fullMap.events;
 	for (var i = 0; i < TileMaps.fullMap.layers.length; i++) {
 		console.log("build :" + i);
 		var layer = TileMaps.fullMap.layers[i];
