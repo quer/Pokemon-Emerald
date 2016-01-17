@@ -9,8 +9,8 @@ function World () {
 		var xStart = (xRender - offset);
 		var yStart = (yRender - offset);
 		//console.log("Start : y: "+ yStart + " x: "+ xStart);
-		var xEnd = Math.ceil(Window.REAL_WIDTH / Tile.SIZE) + xStart + (offset * 2);
-		var yEnd = Math.ceil(Window.REAL_HEIGHT / Tile.SIZE) + yStart + (offset * 2);
+		var xEnd = Math.ceil(Window.REAL_WIDTH() / Tile.SIZE) + xStart + (offset * 2);
+		var yEnd = Math.ceil(Window.REAL_HEIGHT() / Tile.SIZE) + yStart + (offset * 2);
 		//console.log("End : y: "+ yEnd + " x: "+ xEnd);
 		//console.log("map:" + this.map.data.length + " : " + this.map.data[0].length + " : " + this.map.data[0][0].length);
 		for (var x = xStart; x < xEnd; x++) {
@@ -18,7 +18,7 @@ function World () {
 				var data = this.map.data[0][x][y];
 				//console.log("data: "+ data);
 				var image = this.getTileplace(data, this.map.tilesets.width, this.map.tilesets.height);
-				canvas.drawImage(this.map.image, image.x * Tile.REAL_SIZE, image.y * Tile.REAL_SIZE, Tile.REAL_SIZE, Tile.REAL_SIZE, x*Tile.SIZE, y*Tile.SIZE, Tile.SIZE, Tile.SIZE);
+				canvas.drawImage(this.map.image, image.x * Tile.SIZE, image.y * Tile.SIZE, Tile.SIZE, Tile.SIZE, x * Tile.REAL_SIZE(), y * Tile.REAL_SIZE(), Tile.REAL_SIZE(), Tile.REAL_SIZE());
 			};		
 		};
 	}

@@ -1,12 +1,23 @@
 var Window = {
-	NORMAL_WIDTH: 320,
-	NORMAL_HEIGHT: 240,
-	REAL_WIDTH: 672,//700,
-	REAL_HEIGHT: 480,//500,
+	SIZES: [
+		[320, 240],
+		[640, 480],
+		[960, 720]
+	],
+	SELECTEDSIZE : 2,
 	SCALE_WIDTH: function () {
-			return this.REAL_WIDTH / this.NORMAL_WIDTH;
+		return this.SIZES[this.SELECTEDSIZE][0];
 	},
     SCALE_HEIGHT: function () {
-            return this.REAL_HEIGHT / this.NORMAL_HEIGHT;
-    }	
+        return this.SIZES[this.SELECTEDSIZE][1];
+    },
+    SCALE: function () {
+		return this.SIZES[this.SELECTEDSIZE][0] / this.SIZES[0][0];
+	},
+	REAL_WIDTH: function () {
+		return this.SIZES[0][0];
+	},
+	REAL_HEIGHT: function () {
+		return this.SIZES[0][1];
+	}
 }

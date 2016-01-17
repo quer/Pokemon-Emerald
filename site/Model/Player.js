@@ -30,10 +30,10 @@ function Player () {
     	console.log("player render");
     	var playerGridSize = {x: 15, y: 22};
     	
-		ctx.drawImage(this.image, playerGridSize.x * 0, playerGridSize.y * 0, playerGridSize.x, playerGridSize.y, this.x*Tile.SIZE, (this.y*Tile.SIZE - (playerGridSize.y - Tile.SIZE)) , playerGridSize.x, playerGridSize.y);
-		ctx.rect(this.x*Tile.SIZE, this.y*Tile.SIZE, 16, 16);
+		ctx.drawImage(this.image, playerGridSize.x * 0, playerGridSize.y * 0, playerGridSize.x, playerGridSize.y, this.x * Tile.REAL_SIZE(), (this.y * Tile.REAL_SIZE() - (playerGridSize.y - Tile.REAL_SIZE())) , playerGridSize.x * Tile.SCALE(), playerGridSize.y* Tile.SCALE());
+		/*ctx.rect(this.x*Tile.SIZE, this.y*Tile.SIZE, 16, 16);
       	ctx.lineWidth = 1;
-      	ctx.stroke();
+      	ctx.stroke();*/
     }
 }
 

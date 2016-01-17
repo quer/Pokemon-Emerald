@@ -2,9 +2,13 @@ var can = document.getElementById('game');
 var	ctx = can.getContext('2d');
 	
 var game = {
-	load: function (can) {
-		can.width  = Window.REAL_WIDTH;
-		can.height = Window.REAL_HEIGHT;
+	load: function (can, ctx) {
+		can.width  = Window.SCALE_WIDTH();
+		can.height = Window.SCALE_HEIGHT();
+		ctx.mozImageSmoothingEnabled = false;
+		ctx.webkitImageSmoothingEnabled = false;
+		ctx.msImageSmoothingEnabled = false;
+		ctx.imageSmoothingEnabled = false;
 	},
 	gameOn: function () {
 		
@@ -14,9 +18,9 @@ var game = {
 	},
 	render: function (ctx) {
 		ctx.save();
-        ctx.translate(-0 + -(Camera.worldXOffset * Tile.SIZE), -0 + -(Camera.worldYOffset * Tile.SIZE));
+        ctx.translate(-0 + -(Camera.worldXOffset * (Tile.REAL_SIZE())), -0 + -(Camera.worldYOffset * (Tile.REAL_SIZE())));
         // clear the viewport
-        ctx.clearRect(-0 + -(Camera.worldXOffset * Tile.SIZE), -0 + -(Camera.worldYOffset * Tile.SIZE), Window.REAL_WIDTH, Window.REAL_HEIGHT);
+        ctx.clearRect(-0 + -(Camera.worldXOffset * (Tile.REAL_SIZE())), -0 + -(Camera.worldYOffset * (Tile.REAL_SIZE())), Window.REAL_WIDTH(), Window.REAL_HEIGHT());
 		
 
 			World.render(ctx, 0 + Camera.worldXOffset, 0 + Camera.worldYOffset);
@@ -28,7 +32,7 @@ var game = {
 		player.update(loops);
 	}
 }
-game.load(can);
+game.load(can, ctx);
 
 var fps = 1000 / 30 ;
 var loops = 0;

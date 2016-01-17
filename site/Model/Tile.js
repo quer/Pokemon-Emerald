@@ -1,7 +1,9 @@
 var Tile = {
 	SIZE: 16,
-	REAL_SIZE: 16,
+	REAL_SIZE: function () {
+		return this.SIZE * Window.SCALE();
+	},
 	SCALE: function () {
-		return this.SIZE / this.REAL_SIZE;
+		return Window.SCALE();
 	}
 }

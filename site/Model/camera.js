@@ -22,24 +22,41 @@ var Camera = {
 		/**
 		* der er 2 af hvær for at sige: når man hopper over fra mindre skærm til støre skærm at den rykker, men ikke den anden vej. så det giver en offsæt hver gang
 		*/
-		if (speedX == 1 &&  (((Window.REAL_WIDTH/Tile.SIZE) / 2) < this.heroXOffset) && (World.map.width - (Window.REAL_WIDTH/Tile.SIZE) / 2) >= this.heroXOffset) { 
+		/*var harfWidthTiles = (Window.REAL_HEIGHT()/Tile.REAL_SIZE()) / 2;
+		var harfHeightTiles = (Window.REAL_HEIGHT()/Tile.REAL_SIZE()) / 2;
+		if (speedX == 1 &&  (harfWidthTiles < this.heroXOffset) && (World.map.width - harfWidthTiles >= this.heroXOffset)) { 
 			this.worldXOffset += speedX;
 		};
-		if (speedX == -1 && (((Window.REAL_WIDTH/Tile.SIZE) / 2) <= this.heroXOffset) && (World.map.width - (Window.REAL_WIDTH/Tile.SIZE) / 2) > this.heroXOffset) { 
+		if (speedX == -1 && (harfWidthTiles <= this.heroXOffset) && (World.map.width - harfWidthTiles > this.heroXOffset)) { 
 			this.worldXOffset += speedX;
 		};
 
-		if (speedY == 1 && ((Window.REAL_HEIGHT/Tile.SIZE) / 2 < this.heroYOffset) && (World.map.height - (Window.REAL_HEIGHT/Tile.SIZE) / 2) >= this.heroYOffset) {
+		if (speedY == 1 && (harfHeightTiles < this.heroYOffset) && (World.map.height - harfHeightTiles >= this.heroYOffset)) {
 			this.worldYOffset += speedY;
 		};
-		if (speedY == -1 && ((Window.REAL_HEIGHT/Tile.SIZE) / 2 <= this.heroYOffset) && (World.map.height - (Window.REAL_HEIGHT/Tile.SIZE) / 2) > this.heroYOffset) {
+		if (speedY == -1 && (harfHeightTiles / 2 <= this.heroYOffset) && (World.map.height - harfHeightTiles > this.heroYOffset)) {
+			this.worldYOffset += speedY;
+		};*/
+		var harfWidthTiles = (Window.SCALE_WIDTH()/Tile.REAL_SIZE()) / 2;
+		var harfHeightTiles = (Window.SCALE_HEIGHT()/Tile.REAL_SIZE()) / 2;
+		if (speedX == 1 &&  (harfWidthTiles < this.heroXOffset) && (World.map.width - harfWidthTiles >= this.heroXOffset)) { 
+			this.worldXOffset += speedX;
+		};
+		if (speedX == -1 && (harfWidthTiles <= this.heroXOffset) && (World.map.width - harfWidthTiles > this.heroXOffset)) { 
+			this.worldXOffset += speedX;
+		};
+
+		if (speedY == 1 && (harfHeightTiles < this.heroYOffset) && (World.map.height - harfHeightTiles >= this.heroYOffset)) {
+			this.worldYOffset += speedY;
+		};
+		if (speedY == -1 && (harfHeightTiles <= this.heroYOffset) && (World.map.height - harfHeightTiles > this.heroYOffset)) {
 			this.worldYOffset += speedY;
 		};
 	},
 	load: function () {
 		//console.log("Camera Dpo......");
-		var hafeWindowTileSizeWidth = Math.ceil((Window.REAL_WIDTH/Tile.SIZE) / 2 );
-		var hafeWindowTileSizeheight = Math.ceil((Window.REAL_HEIGHT/Tile.SIZE) / 2 );
+		var hafeWindowTileSizeWidth = Math.ceil((Window.REAL_WIDTH()/Tile.SIZE) / 2 );
+		var hafeWindowTileSizeheight = Math.ceil((Window.REAL_HEIGHT()/Tile.SIZE) / 2 );
 		if (hafeWindowTileSizeWidth >= this.heroXOffset) {
 			this.worldXOffset = 0;
 			//console.log("width under halv");
@@ -53,13 +70,13 @@ var Camera = {
 
 		if (hafeWindowTileSizeheight >= this.heroYOffset) {
 			this.worldYOffset = 0;
-			//console.log("height under halv");
+			console.log("height under halv");
 		}else if ((World.map.height - hafeWindowTileSizeheight) <= this.heroYOffset) {
-			this.worldYOffset = Math.floor(World.map.height - (Window.REAL_HEIGHT/Tile.SIZE));
-			//console.log("height over halv");
+			this.worldYOffset = Math.floor(World.map.height - (Window.REAL_HEIGHT()/Tile.SIZE));
+			console.log("height over halv");
 		}else{
 			this.worldYOffset = Math.floor(this.heroYOffset - hafeWindowTileSizeheight);
-			//console.log("height aldt andet");
+			console.log("height aldt andet");
 		}
 		//console.log("this.worldXOffset" + this.worldXOffset + ": this.worldYOffset "+ this.worldYOffset);
 		/*
