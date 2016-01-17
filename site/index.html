@@ -1,0 +1,33 @@
+<html>
+<head>
+	<title>Pokemon Emerald</title>
+	<link rel="stylesheet" type="text/css" href="css.css" />
+</head>
+<body>
+	<style type="text/css">
+	canvas{
+		border: 1px solid white;
+		}</style>
+	<img id="fullSheet" src="image/fullSheet.jpg" />
+	<img id="player" src="image/player.png" />
+	
+	<canvas id="game" width="700" height="500"></canvas>
+	<!--<canvas id="game" width="320" height="240"></canvas>-->
+	<!-- the map -->
+	
+	<script src="Map/fullmap.js"></script>
+	<!-- static -->
+	<script src="model/Tile.js"></script>
+	<script src="model/Window.js"></script>
+	<!-- the game engien -->
+	<script src="jquery-2.1.4.min.js"></script>
+	<script src="model/map.js"></script>
+	<script src="model/world.js"></script>
+	<script src="model/camera.js"></script>
+	<script src="model/player.js"></script>
+	
+	<script src="Control/game.js"></script>
+	<!--<script src="main.js"></script>-->
+
+</body>
+</html>
