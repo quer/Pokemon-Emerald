@@ -39,7 +39,7 @@ function Player () {
 			this.imageMovingIndex = 0;
     	};
 		ctx.drawImage(this.image, playerGridSize.x * lookingIndex, playerGridSize.y * this.imageMovingIndex, playerGridSize.x, playerGridSize.y, this.x * Tile.REAL_SIZE() + World.mapOffset.x, (this.y * Tile.REAL_SIZE()- ((playerGridSize.y*Tile.SCALE()) - Tile.REAL_SIZE() )) + World.mapOffset.y , playerGridSize.x * Tile.SCALE(), playerGridSize.y* Tile.SCALE());
-		ctx.font="13px Georgia";
+		ctx.font=(8+(2*Tile.SCALE()))+"px Georgia";
         ctx.textAlign = "center";
         ctx.fillText(this.name,this.x * Tile.REAL_SIZE() + World.mapOffset.x + ((playerGridSize.x * Tile.SCALE()) /2), this.y * Tile.REAL_SIZE() + World.mapOffset.y + Tile.REAL_SIZE() + (2*Tile.SCALE()));
         

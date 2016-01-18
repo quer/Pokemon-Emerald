@@ -4,6 +4,8 @@ function Text () {
 	this.textArray = [];
 	this.activeIndex = 0;
 	this.npc = null;
+	this.arrowMovmentIndex = 0;
+	this.arrowMovmentTime = new Date().getTime();
 	this.render = function (ctx) {
 		if (this.active) {
 	    	//console.log("Text render");
@@ -53,6 +55,18 @@ function Text () {
 			ctx.font="20px Georgia";
 			ctx.textAlign = "left";
 			ctx.fillText(this.textArray[this.activeIndex],startX+(6*Window.SCALE())+(10*Window.SCALE()),startY+(6*Window.SCALE())+(10*Window.SCALE()));
+			//arrow
+			if (this.arrowMovmentTime+100 < new Date().getTime()) {
+				if (this.arrowMovmentIndex + 1 > 6) {
+					this.arrowMovmentIndex = 0;
+				}else{
+					this.arrowMovmentIndex++;
+				}
+				this.arrowMovmentTime = new Date().getTime();
+			};
+			if (this.activeIndex+1 != this.textArray.length) {
+				ctx.drawImage(this.image, 0, 13, 7, 6, startX+(6*Window.SCALE())+repeatSideWays-(20*Window.SCALE()), startY+(6*Window.SCALE())+repeatDown-(10*Window.SCALE()) + this.arrowMovmentIndex , 7*Window.SCALE(), 6*Window.SCALE());
+			};
 		}
 	}
 	this.setText = function (textArray, npc) {

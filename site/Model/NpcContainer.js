@@ -19,7 +19,9 @@ function NpcContainer () {
 	this.getCollisonNpc = function () {
 		var CollisonNpcArray = [];
 		for (var i = 0; i < this.container.length; i++) {
-			CollisonNpcArray.push({"x": this.container[i].x, "y":this.container[i].y});
+			if (this.container[i].map == World.map.name) {
+				CollisonNpcArray.push({"x": this.container[i].x, "y":this.container[i].y});
+			};
 		};
 		return CollisonNpcArray;
 	}

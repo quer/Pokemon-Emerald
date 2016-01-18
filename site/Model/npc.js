@@ -11,17 +11,23 @@ function Npc (data, image) {
 	this.looking = 0;
 	this.canMove = true;
 	this.image = image;
+	this.imagePoss = data.image;
 	this.update = function (delta) {
-		if (this.canMove && (delta % 60) === 0) {
+		if (this.canMove && this.map == World.map.name && (delta % 60) === 0) {
 			this.findTile();
 		}
 	}
 	this.render = function (canvas) {
-		var playerGridSize = {x: 16, y: 21};
-		if (this.timeLastMoving+1500 < new Date().getTime()) {
-			this.imageMovingIndex = 0;
-    	};
-		ctx.drawImage(this.image, playerGridSize.x * this.looking, playerGridSize.y * this.imageMovingIndex, playerGridSize.x, playerGridSize.y, this.x * Tile.REAL_SIZE() + World.mapOffset.x, (this.y * Tile.REAL_SIZE()- ((playerGridSize.y*Tile.SCALE()) - Tile.REAL_SIZE() )) + + World.mapOffset.y , playerGridSize.x * Tile.SCALE(), playerGridSize.y* Tile.SCALE());
+		if (this.map == World.map.name) {
+			var playerGridSize = {x: 16, y: 21};
+			if (this.timeLastMoving+1500 < new Date().getTime()) {
+				this.imageMovingIndex = 0;
+	    	};
+			ctx.drawImage(this.image, playerGridSize.x * this.looking + (this.imagePoss.x*64), playerGridSize.y * this.imageMovingIndex + (this.imagePoss.y*84), playerGridSize.x, playerGridSize.y, this.x * Tile.REAL_SIZE() + World.mapOffset.x, (this.y * Tile.REAL_SIZE()- ((playerGridSize.y*Tile.SCALE()) - Tile.REAL_SIZE() )) + World.mapOffset.y , playerGridSize.x * Tile.SCALE(), playerGridSize.y* Tile.SCALE());
+			ctx.font=(8+(2*Tile.SCALE()))+"px Georgia";
+	        ctx.textAlign = "center";
+	        ctx.fillText(this.name,this.x * Tile.REAL_SIZE() + World.mapOffset.x + ((playerGridSize.x * Tile.SCALE())/2), this.y * Tile.REAL_SIZE() + World.mapOffset.y + Tile.REAL_SIZE() + (2*Tile.SCALE()));
+	    };
 	}
 	this.findTile = function () {
 		var moveWay = Math.floor(Math.random() * 3) + 0;
@@ -50,6 +56,15 @@ function Npc (data, image) {
 				this.x++;
 			}
 		}
+		if (this.looking == moveWay) {
+			if (this.imageMovingIndex + 1 > 2) {
+				this.imageMovingIndex = 1	
+			}else{
+				this.imageMovingIndex++;
+			}
+		}else{
+			this.imageMovingIndex = 1;
+		}
 		this.looking = moveWay;
 		return true;
 	}
@@ -67,6 +82,16 @@ function Npc (data, image) {
 	this.activeNpc = function () {
 		this.canMove = false;
 		text.setText(this.text, this);
+		if (player.looking == "down") {
+			this.looking = 1;
+		}else if (player.looking == "up") {
+			this.looking = 0;
+		}else if (player.looking == "left") {
+			this.looking = 3;
+		}else {
+			this.looking = 2;
+		}
+		this.imageMovingIndex = 0;
 	}
 	this.endText = function () {
 		this.canMove = true;
