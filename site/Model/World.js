@@ -10,6 +10,7 @@ function World () {
 	this.animation[1] = {"step": 0, "time": new Date().getTime()};
 	this.animation[2] = {"step": 0, "time": new Date().getTime()};
 	this.animation[3] = {"step": 0, "time": new Date().getTime()};
+	this.animation[4] = {"step": 0, "time": new Date().getTime()};
 
 	this.animationTime = new Date().getTime();
 	this.render = function (canvas, xRender, yRender){ // x og y startpunkter
@@ -114,7 +115,18 @@ function World () {
 				}
 			}
 			return this.animation[3].step;
-		}
+		}else if (id == 1512) {
+			
+			if (this.animation[4].time + 2000 < new Date().getTime()) {
+				this.animation[4].time = new Date().getTime();
+				if(this.animation[4].step+1 > 1){
+					this.animation[4].step = 0;
+				}else{
+					this.animation[4].step ++;
+				}
+			}
+			return this.animation[4].step;
+		};
 		return false;
 	}
 }

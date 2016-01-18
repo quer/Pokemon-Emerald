@@ -3,6 +3,7 @@ function Text () {
 	this.image = document.getElementById("text");
 	this.textArray = [];
 	this.activeIndex = 0;
+	this.npc = null;
 	this.render = function (ctx) {
 		if (this.active) {
 	    	//console.log("Text render");
@@ -50,15 +51,19 @@ function Text () {
 			//text til box
 			ctx.fillStyle="#000";
 			ctx.font="20px Georgia";
+			ctx.textAlign = "left";
 			ctx.fillText(this.textArray[this.activeIndex],startX+(6*Window.SCALE())+(10*Window.SCALE()),startY+(6*Window.SCALE())+(10*Window.SCALE()));
 		}
 	}
-	this.setText = function (textArray) {
+	this.setText = function (textArray, npc) {
 		if (!this.active) {
 			this.textArray = textArray;
 			this.active = true;
 			this.activeIndex = 0;
 			player.canMove = false;
+			if (typeof npc != "undefined") {
+				this.npc = npc;
+			};
 		};
 	}
 	this.doZ = function () {
@@ -69,6 +74,11 @@ function Text () {
 		}else if(this.active){
 			this.active = false;
 			player.canMove = true;
+			if (this.npc != null) {
+				
+				this.npc.endText();
+				this.npc = null;
+			};
 			return true;
 		}else {
 			console.log("text no doZ");

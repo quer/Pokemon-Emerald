@@ -16,10 +16,10 @@ function Player () {
     this.imageMovingIndex = 0;
     this.timeLastMoving = new Date().getTime();
     this.image = document.getElementById("player");
-    this.update = function (loops) {
-    	if (player.warking && (loops % 3) === 0) {
+    this.update = function (delta) {
+    	if (this.warking && (delta % 3) === 0) {
 			this.movePlayer();
-		}else if (player.runing && (loops % 1) === 0) {
+		}else if (this.runing && (delta % 1) === 0) {
 			this.movePlayer();
 		};
 		this.x = Camera.heroXOffset;
@@ -38,13 +38,17 @@ function Player () {
     	if (this.timeLastMoving+1500 < new Date().getTime()) {
 			this.imageMovingIndex = 0;
     	};
-		ctx.drawImage(this.image, playerGridSize.x * lookingIndex, playerGridSize.y * this.imageMovingIndex, playerGridSize.x, playerGridSize.y, this.x * Tile.REAL_SIZE() + World.mapOffset.x, (this.y * Tile.REAL_SIZE()- ((playerGridSize.y*Tile.SCALE()) - Tile.REAL_SIZE() )) + + World.mapOffset.y , playerGridSize.x * Tile.SCALE(), playerGridSize.y* Tile.SCALE());
-		/*ctx.rect(this.x*Tile.SIZE, this.y*Tile.SIZE, 16, 16);
+		ctx.drawImage(this.image, playerGridSize.x * lookingIndex, playerGridSize.y * this.imageMovingIndex, playerGridSize.x, playerGridSize.y, this.x * Tile.REAL_SIZE() + World.mapOffset.x, (this.y * Tile.REAL_SIZE()- ((playerGridSize.y*Tile.SCALE()) - Tile.REAL_SIZE() )) + World.mapOffset.y , playerGridSize.x * Tile.SCALE(), playerGridSize.y* Tile.SCALE());
+		ctx.font="13px Georgia";
+        ctx.textAlign = "center";
+        ctx.fillText(this.name,this.x * Tile.REAL_SIZE() + World.mapOffset.x + ((playerGridSize.x * Tile.SCALE()) /2), this.y * Tile.REAL_SIZE() + World.mapOffset.y + Tile.REAL_SIZE() + (2*Tile.SCALE()));
+        
+        /*ctx.rect(this.x*Tile.SIZE, this.y*Tile.SIZE, 16, 16);
       	ctx.lineWidth = 1;
       	ctx.stroke();*/
     }
     this.movePlayer = function () {
-    	if (player.move.up && this.canMove) {
+    	if (this.move.up && this.canMove) {
     		if (this.looking == "up" && this.testUp()) {
 				Camera.update(0, -1);
 				this.moveImage(false);
@@ -52,7 +56,7 @@ function Player () {
 				this.looking = "up";
 				this.moveImage(true);
 			}
-	    }else if (player.move.down && this.canMove) {
+	    }else if (this.move.down && this.canMove) {
 			if (this.looking == "down" && this.testDown()) {	
 				Camera.update(0, 1);
 				this.moveImage(false);
@@ -60,7 +64,7 @@ function Player () {
 				this.looking = "down";
 				this.moveImage(true);
 			}
-	    }else if (player.move.right && this.canMove) {
+	    }else if (this.move.right && this.canMove) {
 			if (this.looking == "right" && this.testRight()) {
 				Camera.update(1, 0);
 				this.moveImage(false);
@@ -68,7 +72,7 @@ function Player () {
 				this.looking = "right";
 				this.moveImage(true);
 			}
-	    }else if (player.move.left && this.canMove) {
+	    }else if (this.move.left && this.canMove) {
 			if (this.looking == "left" && this.testLeft()) {
 	    	    Camera.update(-1, 0);
 	    	    this.moveImage(false);
@@ -138,31 +142,28 @@ function Player () {
     }
     this.testUp = function () {
     	//console.log(World.eventReturn(this.x, this.y-1)+" up");
-    	return this.canWark(World.eventReturn(this.x, this.y-1));
+    	return Collision.canWark(this.x, this.y-1);
     }
     this.testDown = function () {
-    	return this.canWark(World.eventReturn(this.x, this.y+1));
+    	return Collision.canWark(this.x, this.y+1);
     }
     this.testLeft = function () {
-    	return this.canWark(World.eventReturn(this.x-1, this.y));
+    	return Collision.canWark(this.x-1, this.y);
     }
     this.testRight = function () {
-    	return this.canWark(World.eventReturn(this.x+1, this.y));
-    }
-    this.canWark = function(eventNr) {
-    	if (eventNr == 0 || eventNr == 2 || eventNr == 5 || eventNr == 3) {
-    		return true;
-    	}
-    	return false;
+    	return Collision.canWark(this.x+1, this.y);
     }
     this.eventLooking = function(x, y) {
     	//console.log("looking" + x + " " + y);
+        var isNpc = NpcContainer.isNpc(x, y);
     	if (typeof World.map.events.sign[x+"_"+y] != "undefined") {
     		return {"type" : "sign", "data": World.map.events.sign[x+"_"+y] };
     	}else if (typeof World.map.events.warp[x+"_"+y] != "undefined") {
     		return {"type" : "warp", "data": World.map.events.warp[x+"_"+y] };
     	}else if (typeof World.map.events.teleport[x+"_"+y] != "undefined") {
             return {"type" : "teleport", "data": World.map.events.teleport[x+"_"+y] };
+        }else if (isNpc != null) {
+            isNpc.activeNpc();
         };
     	return false;
     }

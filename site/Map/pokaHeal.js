@@ -33,7 +33,10 @@
     },
     "events": {
         "sign":{
-
+            "10_1" : [
+                "here you can check your mail!",
+                "and mutch more"
+            ]
         },
         "warp":{
 

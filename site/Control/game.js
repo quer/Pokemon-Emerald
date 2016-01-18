@@ -14,7 +14,7 @@ var game = {
         Camera.heroXOffset = player.x;
 		Camera.heroYOffset = player.y;
 		Camera.load();
-
+        NpcContainer.load();
 	},
 	gameOn: function () {
 		
@@ -23,6 +23,7 @@ var game = {
 		
 	},
 	render: function (ctx) {
+        var start = Date.now();
         ctx.fillStyle="black";
 		ctx.save();
         ctx.translate(-0 + -(Camera.worldXOffset * (Tile.REAL_SIZE())), -0 + -(Camera.worldYOffset * (Tile.REAL_SIZE())));
@@ -31,23 +32,30 @@ var game = {
 		
 
 			World.render(ctx, 0 + Camera.worldXOffset, 0 + Camera.worldYOffset);
-			player.render(ctx);	
+			NpcContainer.render(ctx);
+            player.render(ctx);
 			text.render(ctx);
 		ctx.restore();
+
+        var end = Date.now();
+        ctx.font = '16px sans-serif'
+        ctx.textAlign = 'center';
+        ctx.fillText('Rendered in ' + (end - start) + ' ms', can.width / 2, can.height - 20);
 	},
-	update: function (loops) {
-		player.update(loops);
+	update: function (delta) {
+		player.update(delta);
+        NpcContainer.update(delta);
 	}
 }
 game.load(can, ctx);
 
 var fps = 1000 / 30 ;
-var loops = 0;
+var delta = 0;
 var mainloop = function() {
-	loops++;
+	delta++;
 	
 	game.render(ctx);
-	game.update(loops);
+	game.update(delta);
 	
 	
 };
