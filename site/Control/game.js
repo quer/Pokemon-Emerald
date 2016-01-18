@@ -9,9 +9,12 @@ var game = {
 		ctx.webkitImageSmoothingEnabled = false;
 		ctx.msImageSmoothingEnabled = false;
 		ctx.imageSmoothingEnabled = false;
-		Camera.heroXOffset = player.x;
+        Rooms.load();
+		World.load(player.mapName);
+        Camera.heroXOffset = player.x;
 		Camera.heroYOffset = player.y;
 		Camera.load();
+
 	},
 	gameOn: function () {
 		
@@ -20,10 +23,11 @@ var game = {
 		
 	},
 	render: function (ctx) {
+        ctx.fillStyle="black";
 		ctx.save();
         ctx.translate(-0 + -(Camera.worldXOffset * (Tile.REAL_SIZE())), -0 + -(Camera.worldYOffset * (Tile.REAL_SIZE())));
         // clear the viewport
-        ctx.clearRect(-0 + -(Camera.worldXOffset * (Tile.REAL_SIZE())), -0 + -(Camera.worldYOffset * (Tile.REAL_SIZE())), Window.REAL_WIDTH(), Window.REAL_HEIGHT());
+        ctx.clearRect(-0 + -(Camera.worldXOffset * (Tile.REAL_SIZE())), -0 + -(Camera.worldYOffset * (Tile.REAL_SIZE())), Window.SCALE_WIDTH(), Window.SCALE_HEIGHT());
 		
 
 			World.render(ctx, 0 + Camera.worldXOffset, 0 + Camera.worldYOffset);

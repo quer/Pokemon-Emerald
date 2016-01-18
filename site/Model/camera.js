@@ -42,7 +42,9 @@ var Camera = {
 		//console.log("Camera Dpo......");
 		var hafeWindowTileSizeWidth = Math.ceil((Window.REAL_WIDTH()/Tile.SIZE) / 2 );
 		var hafeWindowTileSizeheight = Math.ceil((Window.REAL_HEIGHT()/Tile.SIZE) / 2 );
-		if (hafeWindowTileSizeWidth >= this.heroXOffset) {
+		if(World.map.width < (hafeWindowTileSizeWidth*2)){
+			this.worldXOffset = 0;
+		}else if (hafeWindowTileSizeWidth >= this.heroXOffset) {
 			this.worldXOffset = 0;
 			//console.log("width under halv");
 		}else if ((World.map.width - hafeWindowTileSizeWidth) <= this.heroXOffset) {
@@ -53,7 +55,9 @@ var Camera = {
 			//console.log("width aldt andet");
 		}
 
-		if (hafeWindowTileSizeheight >= this.heroYOffset) {
+		if(World.map.height < (hafeWindowTileSizeheight*2)){
+			this.worldYOffset = 0;
+		}else if (hafeWindowTileSizeheight >= this.heroYOffset) {
 			this.worldYOffset = 0;
 			console.log("height under halv");
 		}else if ((World.map.height - hafeWindowTileSizeheight) <= this.heroYOffset) {

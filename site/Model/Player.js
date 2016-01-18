@@ -1,7 +1,8 @@
 function Player () {
 	this.name = "test"; 
-	this.x = 10;//133;
-	this.y = 84;//173;
+	this.x = 22;//133//22;
+	this.y = 22;//173//22;
+    this.mapName = "fullMap";
 	this.warking = true;
 	this.runing = false;
 	this.looking = "down";
@@ -16,9 +17,9 @@ function Player () {
     this.timeLastMoving = new Date().getTime();
     this.image = document.getElementById("player");
     this.update = function (loops) {
-    	if ((loops % 3) === 0 && player.warking) {
+    	if (player.warking && (loops % 3) === 0) {
 			this.movePlayer();
-		}else if ((loops % 1) === 0 && player.runing) {
+		}else if (player.runing && (loops % 1) === 0) {
 			this.movePlayer();
 		};
 		this.x = Camera.heroXOffset;
@@ -37,7 +38,7 @@ function Player () {
     	if (this.timeLastMoving+1500 < new Date().getTime()) {
 			this.imageMovingIndex = 0;
     	};
-		ctx.drawImage(this.image, playerGridSize.x * lookingIndex, playerGridSize.y * this.imageMovingIndex, playerGridSize.x, playerGridSize.y, this.x * Tile.REAL_SIZE(), (this.y * Tile.REAL_SIZE()- ((playerGridSize.y*Tile.SCALE()) - Tile.REAL_SIZE() )) , playerGridSize.x * Tile.SCALE(), playerGridSize.y* Tile.SCALE());
+		ctx.drawImage(this.image, playerGridSize.x * lookingIndex, playerGridSize.y * this.imageMovingIndex, playerGridSize.x, playerGridSize.y, this.x * Tile.REAL_SIZE() + World.mapOffset.x, (this.y * Tile.REAL_SIZE()- ((playerGridSize.y*Tile.SCALE()) - Tile.REAL_SIZE() )) + + World.mapOffset.y , playerGridSize.x * Tile.SCALE(), playerGridSize.y* Tile.SCALE());
 		/*ctx.rect(this.x*Tile.SIZE, this.y*Tile.SIZE, 16, 16);
       	ctx.lineWidth = 1;
       	ctx.stroke();*/
@@ -105,8 +106,24 @@ function Player () {
     		var moveX = tileData.data.x - this.x; 
     		var moveY = tileData.data.y - this.y;
     		Camera.update(moveX, moveY);
-    		console.log("do eventOnBlock");
-    	};
+    		console.log("do eventOnBlock warp");
+    	}else if (tileData != false && tileData.type == "teleport") {
+            console.log("do eventOnBlock tele");
+            var map = tileData.data;
+            console.log(tileData);
+            World.load(map.map);
+            if(map.poss == null){
+                var mapData = Rooms.find(map.map);
+                this.x = mapData.start.x;
+                this.y = mapData.start.y;
+            }else{
+                this.x = map.poss.x;
+                this.y = map.poss.y;
+            }
+            Camera.heroXOffset = this.x;
+            Camera.heroYOffset = this.y;
+            Camera.load();
+        };
     }
     this.moveImage = function (stop) {
     	if (!stop) {
@@ -144,7 +161,9 @@ function Player () {
     		return {"type" : "sign", "data": World.map.events.sign[x+"_"+y] };
     	}else if (typeof World.map.events.warp[x+"_"+y] != "undefined") {
     		return {"type" : "warp", "data": World.map.events.warp[x+"_"+y] };
-    	};
+    	}else if (typeof World.map.events.teleport[x+"_"+y] != "undefined") {
+            return {"type" : "teleport", "data": World.map.events.teleport[x+"_"+y] };
+        };
     	return false;
     }
 }

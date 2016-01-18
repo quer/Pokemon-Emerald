@@ -1,0 +1,6 @@
+##################
+made by quer - www.quers.net
+##################
+# to add new map to game
+1. index.html add js file.
+2. add to loader in Rooms.js
