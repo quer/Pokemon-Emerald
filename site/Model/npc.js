@@ -13,7 +13,7 @@ function Npc (data, image) {
 	this.image = image;
 	this.imagePoss = data.image;
 	this.update = function (delta) {
-		if (this.canMove && this.map == World.map.name && (delta % 60) === 0) {
+		if (this.canMove && this.movment.type != "standing" && this.map == World.map.name && (delta % 60) === 0) {
 			this.findTile();
 		}
 	}

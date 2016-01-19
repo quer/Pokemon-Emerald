@@ -11,9 +11,20 @@ function NpcContainer () {
 			this.container[i].update(delta);
 		};
 	}
-	this.render = function (canvas) {
+	this.renderBeforePlayer = function (canvas) {
 		for (var i = 0; i < this.container.length; i++) {
-			this.container[i].render(canvas);
+			if (this.container[i].y < player.y)
+			{
+				this.container[i].render(canvas);
+			}
+		};
+	}
+	this.renderAfterPlayer = function (canvas) {
+		for (var i = 0; i < this.container.length; i++) {
+			if (this.container[i].y >= player.y)
+			{
+				this.container[i].render(canvas);
+			}
 		};
 	}
 	this.getCollisonNpc = function () {

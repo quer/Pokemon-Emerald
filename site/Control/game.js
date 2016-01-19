@@ -31,9 +31,13 @@ var game = {
         ctx.clearRect(-0 + -(Camera.worldXOffset * (Tile.REAL_SIZE())), -0 + -(Camera.worldYOffset * (Tile.REAL_SIZE())), Window.SCALE_WIDTH(), Window.SCALE_HEIGHT());
 		
 
-			World.render(ctx, 0 + Camera.worldXOffset, 0 + Camera.worldYOffset);
-			NpcContainer.render(ctx);
+			World.render(ctx, 0 + Camera.worldXOffset, 0 + Camera.worldYOffset , 0);
+			NpcContainer.renderBeforePlayer(ctx);
             player.render(ctx);
+            NpcContainer.renderAfterPlayer(ctx);
+            //the top of building and the map
+            World.render(ctx, 0 + Camera.worldXOffset, 0 + Camera.worldYOffset , 1);
+
 			text.render(ctx);
 		ctx.restore();
 

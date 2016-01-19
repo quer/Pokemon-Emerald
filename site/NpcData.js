@@ -23,7 +23,7 @@ var NpcData = {
 		{
 			"name": "the Master",
 			"movment": {
-				"type": "moving",
+				"type": "standing",
 				"radius": 4,
 				"start": {
 					"x": 23,

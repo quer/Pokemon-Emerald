@@ -13,9 +13,11 @@ function World () {
 	this.animation[4] = {"step": 0, "time": new Date().getTime()};
 
 	this.animationTime = new Date().getTime();
-	this.render = function (canvas, xRender, yRender){ // x og y startpunkter
+	this.render = function (canvas, xRender, yRender, index){ // x og y startpunkter
 		//console.log("y: "+ yRender + " x: "+ xRender);
-		
+		if (typeof this.map.data[index] == "undefined" || index >= this.map.data.length-1) {
+			return;
+		};
 		var offset = 0;
 		var xStart = (xRender - offset);
 		var yStart = (yRender - offset);
@@ -32,7 +34,7 @@ function World () {
 		//console.log("map:" + this.map.data.length + " : " + this.map.data[0].length + " : " + this.map.data[0][0].length);
 		for (var x = xStart; x < xEnd; x++) {
 			for (var y = yStart; y < yEnd; y++) {
-				var data = this.map.data[0][x][y];
+				var data = this.map.data[index][x][y];
 				var animationMove = 0;
 				if (this.doAnimation(data) != false) {
 					animationMove = this.doAnimation(data);
@@ -67,7 +69,11 @@ function World () {
 	    return {x: returnX, y: returnY};
 	}
 	this.eventReturn = function (x, y) {
-		return this.map.data[1][x][y];
+		var index = 1;
+		if (this.map.data.length == 3) {
+			index = 2;
+		};
+		return this.map.data[index][x][y];
 	}
 	this.doAnimation = function (id) {
 		if(id == 59){
@@ -126,6 +132,15 @@ function World () {
 				}
 			}
 			return this.animation[4].step;
+		};
+		return false;
+	}
+	this.isUnderWorld = function (x, y) {
+		if (typeof this.map.data[1] == "undefined") {
+			return false;
+		};
+		if (this.map.data[1][x][y] != -1) {
+			return true;
 		};
 		return false;
 	}
