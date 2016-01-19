@@ -1,11 +1,9 @@
 function Rooms () {
 	this.container = [];
 	this.load = function () {
-		this.container.push(new Map(TileMaps.fullMap));
-		this.container.push(new Map(TileMaps.store));
-		this.container.push(new Map(TileMaps.pokaHeal));
-		this.container.push(new Map(TileMaps.pokaHeal_02));
-		this.container.push(new Map(TileMaps.mine_01));
+		for (var key in TileMaps) {
+			this.container.push(new Map(TileMaps[key]));
+		};
 	}
 	this.find = function (name) {
 		for (var i = 0; i < this.container.length; i++) {

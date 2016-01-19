@@ -8,7 +8,7 @@ function Npc (data, image) {
 
 	this.lastMoved = new Date().getTime();
 	this.imageMovingIndex = 0;
-	this.looking = 0;
+	this.looking = this.movment.start.looking;
 	this.canMove = true;
 	this.image = image;
 	this.imagePoss = data.image;

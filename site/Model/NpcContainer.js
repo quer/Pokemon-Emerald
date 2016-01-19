@@ -38,7 +38,7 @@ function NpcContainer () {
 	}
 	this.isNpc = function (x, y) {
 		for (var i = 0; i < this.container.length; i++) {
-			if(this.container[i].x == x && this.container[i].y == y) {
+			if(this.container[i].x == x && this.container[i].y == y && this.container[i].map == World.map.name) {
 				return this.container[i];
 			}  
 		};

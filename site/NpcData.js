@@ -1,5 +1,6 @@
 var NpcData = {
 	"npcs": [
+	//fullMap
 		{
 			"name": "lasse",
 			"movment": {
@@ -7,7 +8,8 @@ var NpcData = {
 				"radius": 2,
 				"start": {
 					"x": 20,
-					"y": 21
+					"y": 21,
+					"looking": 0
 				}
 			},
 			"image":{
@@ -23,11 +25,12 @@ var NpcData = {
 		{
 			"name": "the Master",
 			"movment": {
-				"type": "standing",
+				"type": "moving",
 				"radius": 4,
 				"start": {
 					"x": 23,
-					"y": 39
+					"y": 39,
+					"looking": 0
 				}
 			},
 			"image":{
@@ -49,7 +52,8 @@ var NpcData = {
 				"radius": 4,
 				"start": {
 					"x": 64,
-					"y": 13
+					"y": 13,
+					"looking": 0
 				}
 			},
 			"image":{
@@ -61,6 +65,52 @@ var NpcData = {
 				"you will soon be able to fight me!",
 				"just whait for the up",
 				"where he make it ;)"
+			]
+		},
+		//pokaHeal
+		{
+			"name": "pokemon center",
+			"movment": {
+				"type": "standing",
+				"radius": 1,
+				"start": {
+					"x": 7,
+					"y": 2,
+					"looking": 0
+				}
+			},
+			"image":{
+				"x": 3,
+				"y": 0
+			},
+			"map": "pokaHeal",
+			"text": [
+				"text that i will way when talk to",
+				"more text",
+				"more text2"
+			]
+		},
+		//gym_01
+		{
+			"name": "guild master",
+			"movment": {
+				"type": "standing",
+				"radius": 1,
+				"start": {
+					"x": 3,
+					"y": 3,
+					"looking": 0
+				}
+			},
+			"image":{
+				"x": 1,
+				"y": 0
+			},
+			"map": "gym_01",
+			"text": [
+				"I'm the guild master!",
+				"one day",
+				"just one day"
 			]
 		}
 	]
